@@ -1,0 +1,41 @@
+---
+# 1. Установить сам пакет
+# 2. Заменить конфигурацию на свою
+# 3. Установить mysql ()
+# 4. ...
+- name: install nginx
+  hosts: [ nginx ]
+  become: True
+  vars:
+    nginx_conf_name: "superwebappssss.conf"
+    nginx_conf_path: "/etc/nginx/sites-enabled"
+    service_domain: "www.xxx.yyy"
+    nginx_port: 80
+  tasks:
+    - name: install nginx package
+      apt:
+        name:
+          - nginx
+          - php
+        update_cache: True
+    - name: print domain
+      debug:
+        msg: "{{ service_domain }}"
+ 
+    - name: set nginx conf
+      template:
+        src: nginx.conf.j2
+        dest: "{{ nginx_conf_path }}/{{ nginx_conf_name }}"
+      notify: restart nginx
+
+  handlers:
+    - name: restart nginx
+      service:
+        service: nginx
+        state: restarted
+
+
+
+
+
+  
