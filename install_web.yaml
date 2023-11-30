@@ -1,8 +1,7 @@
 ---
-# 1. Установить сам пакет
-# 2. Заменить конфигурацию на свою
-# 3. Установить mysql ()
-# 4. ...
+# 1. Установка nginx (пакет)
+# 2. Проверить, что он запущен
+# 3. Указать путь до нашего файла с htlm
 - name: install nginx
   hosts: [ nginx ]
   become: True
@@ -11,12 +10,12 @@
     nginx_conf_path: "/etc/nginx/sites-enabled"
     service_domain: "www.xxx.yyy"
     nginx_port: 80
+    site_path: "/var/www/html"
   tasks:
     - name: install nginx package
       apt:
         name:
           - nginx
-          - php
         update_cache: True
     - name: print domain
       debug:
@@ -28,14 +27,14 @@
         dest: "{{ nginx_conf_path }}/{{ nginx_conf_name }}"
       notify: restart nginx
 
+    - name: start nginx
+      service:
+        service: nginx
+        state: started
+        enabled: yes
+
   handlers:
     - name: restart nginx
       service:
         service: nginx
         state: restarted
-
-
-
-
-
-  

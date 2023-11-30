@@ -1,7 +1,8 @@
  server {
     listen {{ nginx_port }};
     server_name {{ service_domain }};
-    access_log  logs/{{ service_domain }}.access.log main;
+    #access_log  logs/{{ service_domain }}.access.log main;
     
-    root /var/www/{{ service_domain }}.com/htdocs;
+    root {{ site_path }};
   }
+  
