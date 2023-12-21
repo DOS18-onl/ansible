@@ -1,8 +1,10 @@
- server {
+ {% for domain in domains %}
+  server {
     listen {{ nginx_port }};
-    server_name {{ service_domain }};
+    server_name {{ domain }};
     #access_log  logs/{{ service_domain }}.access.log main;
     
     root {{ site_path }};
   }
-  
+
+{% endfor %}

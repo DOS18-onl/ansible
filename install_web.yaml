@@ -11,6 +11,10 @@
     service_domain: "www.xxx.yyy"
     nginx_port: 80
     site_path: "/var/www/html"
+    domains:
+      - "www.xxx.yyy"
+      - "sdfsdfds.xgfgd"
+      - "dsfdsfds.xxx"
   tasks:
     - name: install nginx package
       apt:
@@ -18,8 +22,8 @@
           - nginx
         update_cache: True
     - name: print domain
-      debug:
-        msg: "{{ service_domain }}"
+      shell:
+        cmd: "cat {{ service_domain }}"
  
     - name: set nginx conf
       template:
@@ -28,13 +32,12 @@
       notify: restart nginx
 
     - name: start nginx
-      service:
-        service: nginx
-        state: started
-        enabled: yes
+      shell:
+        cmd: "systemctl start nginx"
 
   handlers:
     - name: restart nginx
       service:
         service: nginx
         state: restarted
+
